@@ -1,0 +1,32 @@
+object {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: black;
+  overflow: hidden;
+}
+
+svg {
+  width: 100vw;
+  height: 100vh;
+}
+
+/* 11111111
+<line y1="-0.5" x2="63" y2="-0.5" stroke="white" transform="matrix(4.37662e-08 1 1 -4.36566e-08 232.272 202)"></line> */
+
+/* 2222222
+<line y1="-0.5" x2="34" y2="-0.5" transform="matrix(4.37662e-08 1 1 -4.36566e-08 236.277 226)" stroke="white"></line> */
+
+/* 333333
+<line y1="-0.5" x2="87.0059" y2="-0.5" transform="matrix(0.0117787 0.999931 -0.999931 0.0117492 584.714 227)" stroke="white"></line> */
+
+/* 
+4444444
+<line x1="590.22" y1="204" x2="590.22" y2="318" stroke="white"></line> */
