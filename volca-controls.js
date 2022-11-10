@@ -1,12 +1,16 @@
-let drumKeys = ["q", "w", "e", "r", "t", "y"];
+const drumKeys = ["q", "w", "e", "r", "t", "y"];
 
-let drumButtons = document.getElementsByClassName("drum button surfaces")[0]
+const drumButtons = document.getElementsByClassName("drum button surfaces")[0]
   .children;
 
-let effectButtons = document.getElementsByClassName("effect button surfaces")[0]
+const effectButtons = document.getElementsByClassName(
+  "effect button surfaces"
+)[0].children;
+
+const chokeButtons = document.getElementsByClassName("choke button surfaces")[0]
   .children;
 
-let triggerKeys = [
+const triggerKeys = [
   "a",
   "s",
   "d",
@@ -25,26 +29,33 @@ let triggerKeys = [
   ",",
 ];
 
-let triggerButtons = document.getElementsByClassName(
+const triggerButtons = document.getElementsByClassName(
   "trigger button surfaces"
 )[0].children;
 
 document.addEventListener("keydown", ifKeyPressed);
 document.addEventListener("keyup", ifKeyPressed);
 
+let modHeld = false;
 function ifKeyPressed(event) {
-  console.log(event.key);
+  if (modHeld && event.type === "keydown") {
+    console.log("secondKey", event.key);
+  }
+  if (!modHeld && event.ctrlKey && event.type === "keydown") {
+    console.log("Mod!");
+    modHeld = true;
+  } else if (modHeld && !event.ctrlKey && event.type === "keyup") {
+    console.log("NO MOD!!");
+    modHeld = false;
+  }
+
   findAndMoveButton(event, triggerKeys, triggerButtons);
   findAndMoveButton(event, drumKeys, drumButtons);
-  findAndMoveButton(event, drumKeys, effectButtons, "ellipse");
 
-  function findAndMoveButton(
-    event,
-    keyArray,
-    buttonGroup,
-    shape = "rect",
-    hold = "none"
-  ) {
+  //   findAndMoveButton(event, drumKeys, effectButtons, "ellipse");
+  //   findAndMoveButton(event, drumKeys, chokeButtons, "ellipse");
+
+  function findAndMoveButton(event, keyArray, buttonGroup, shape = "rect") {
     // if key pressed is in triggerKeys array,
     //    if that key is pressed down, move the rectangle down that correspons to the key
     //    when that key is released, move the rect back to its base position
