@@ -1,5 +1,7 @@
-document.addEventListener("keydown", ifTriggerKeyPressed);
-document.addEventListener("keyup", ifTriggerKeyPressed);
+let drumKeys = ["q", "w", "e", "r", "t", "y"];
+
+let drumButtons = document.getElementsByClassName("drum button surfaces")[0]
+  .children;
 
 let triggerKeys = [
   "a",
@@ -19,28 +21,43 @@ let triggerKeys = [
   "m",
   ",",
 ];
-let drumButton = document.getElementsByClassName("trigger-button-surfaces")[0]
-  .children;
 
-function ifTriggerKeyPressed(e) {
-  // if key pressed is in triggerKeys array,
-  //    if that key is pressed down, move the rectangle down that correspons to the key
-  //    when that key is released, move the rect back to its base position
-  let buttonIndex = triggerKeys.indexOf(e.key);
-  if (buttonIndex < 0) return;
-  //the drumButton array corresponds to the triggerKeys array and the index of these keys is
-  //used to find the trigger button
-  let currentButton = drumButton[triggerKeys.indexOf(e.key)];
-  let baseY = currentButton.getAttribute("base-y");
-  let buttonPosition = "";
+let triggerButtons = document.getElementsByClassName(
+  "trigger button surfaces"
+)[0].children;
 
-  switch (e.type) {
-    case "keydown":
-      buttonPosition = `${parseInt(baseY) + 5}`;
-      break;
-    case "keyup":
-      buttonPosition = baseY;
+document.addEventListener("keydown", ifKeyPressed);
+document.addEventListener("keyup", ifKeyPressed);
+
+function ifKeyPressed(event) {
+  //   ifTriggerKeyPressed(event);
+  findAndMoveButton(event, triggerKeys, triggerButtons);
+  findAndMoveButton(event, drumKeys, drumButtons);
+
+  function findAndMoveButton(event, keyArray, buttonGroup) {
+    // if key pressed is in triggerKeys array,
+    //    if that key is pressed down, move the rectangle down that correspons to the key
+    //    when that key is released, move the rect back to its base position
+    let buttonIndex = keyArray.indexOf(event.key);
+    if (buttonIndex < 0) return;
+    //the triggerButtons array corresponds to the triggerKeys array and the index of these keys is
+    //used to find the trigger button
+    let currentButton = buttonGroup[buttonIndex];
+    let baseY = currentButton.getAttribute("base-y");
+    let buttonPosition = "";
+
+    switch (event.type) {
+      case "keydown":
+        buttonPosition = `${parseInt(baseY) + 5}`;
+        break;
+      case "keyup":
+        buttonPosition = baseY;
+    }
+
+    currentButton.setAttribute("y", buttonPosition);
   }
 
-  currentButton.setAttribute("y", buttonPosition);
+  function keySwitcher(currentButton) {
+    return buttonPosition;
+  }
 }
