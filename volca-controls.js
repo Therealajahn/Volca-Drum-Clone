@@ -3,6 +3,9 @@ let drumKeys = ["q", "w", "e", "r", "t", "y"];
 let drumButtons = document.getElementsByClassName("drum button surfaces")[0]
   .children;
 
+let effectButtons = document.getElementsByClassName("effect button surfaces")[0]
+  .children;
+
 let triggerKeys = [
   "a",
   "s",
@@ -30,11 +33,18 @@ document.addEventListener("keydown", ifKeyPressed);
 document.addEventListener("keyup", ifKeyPressed);
 
 function ifKeyPressed(event) {
-  //   ifTriggerKeyPressed(event);
+  console.log(event.key);
   findAndMoveButton(event, triggerKeys, triggerButtons);
   findAndMoveButton(event, drumKeys, drumButtons);
+  findAndMoveButton(event, drumKeys, effectButtons, "ellipse");
 
-  function findAndMoveButton(event, keyArray, buttonGroup) {
+  function findAndMoveButton(
+    event,
+    keyArray,
+    buttonGroup,
+    shape = "rect",
+    hold = "none"
+  ) {
     // if key pressed is in triggerKeys array,
     //    if that key is pressed down, move the rectangle down that correspons to the key
     //    when that key is released, move the rect back to its base position
@@ -45,19 +55,28 @@ function ifKeyPressed(event) {
     let currentButton = buttonGroup[buttonIndex];
     let baseY = currentButton.getAttribute("base-y");
     let buttonPosition = "";
+    //change position offset and attribute changed depending on shape
+    let yAxis = "";
+    let offset = 0;
+    switch (shape) {
+      case "rect":
+        yAxis = "y";
+        offset = 5;
+        break;
+      case "ellipse":
+        yAxis = "cy";
+        offset = 2.5;
+        break;
+    }
 
     switch (event.type) {
       case "keydown":
-        buttonPosition = `${parseInt(baseY) + 5}`;
+        buttonPosition = `${parseInt(baseY) + offset}`;
         break;
       case "keyup":
         buttonPosition = baseY;
     }
 
-    currentButton.setAttribute("y", buttonPosition);
-  }
-
-  function keySwitcher(currentButton) {
-    return buttonPosition;
+    currentButton.setAttribute(yAxis, buttonPosition);
   }
 }
