@@ -100,12 +100,14 @@ function ifKeyPressed(event) {
 
 function findAndMoveButton(event, keyArray, buttonGroup, shape) {
   //TODO: init important variables and define them in both cases
+  let currentButton = 0;
+  let buttonIndex = 0;
   switch (arguments[0] === "click") {
     case true:
     case false:
       let buttonIndex = keyArray.indexOf(event.key.toLowerCase());
       if (buttonIndex < 0) return;
-      let currentButton = buttonGroup[buttonIndex];
+      currentButton = buttonGroup[buttonIndex];
       break;
   }
 
@@ -133,11 +135,34 @@ function findAndMoveButton(event, keyArray, buttonGroup, shape) {
     case "keyup":
       buttonPosition = baseY;
   }
-
   currentButton.setAttribute(yAxis, buttonPosition);
 }
-//TODO make a function that finds the buttonGroup and shape of a clicked button
+
 document.addEventListener("mousedown", (event) => {
-  console.log("parent", event.target.parentElement.children);
-  console.log("tag", event.target.tagName);
+  document.addEventListener("mousemove", mouseMoveStuff);
+  let parent = event.target.parentElement;
+  let knobTop = event.target.parentElement.children[2];
+
+  let rotationCenter = {
+    x: knobTop.getAttribute("cx"),
+    y: knobTop.getAttribute("cy"),
+  };
+
+  let wiper = event.target.parentElement.children[4];
+  let rotation = 45;
+
+  wiper.setAttribute(
+    "transform",
+    `rotate(${rotation} ${rotationCenter.x} ${rotationCenter.y})`
+  );
+});
+
+function mouseMoveStuff(event) {
+  console.log("X:", event.clientX);
+  console.log("Y:", event.clientY);
+}
+
+document.addEventListener("mouseup", (event) => {
+  console.log("mouseup");
+  document.removeEventListener("mousemove", mouseMoveStuff);
 });
